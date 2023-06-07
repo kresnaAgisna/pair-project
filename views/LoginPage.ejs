@@ -1,0 +1,40 @@
+<%- include('./partials/header') %>
+<%- include('./partials/navbar') %>
+
+
+
+
+    <div class="d-flex flex-column align-items-center py-5">
+        <% if (error) { %>     
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong> <%= error %> </strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+        <% } %>
+        <div class="container col-4 d-flex flex-column align-items-center py-5 border rounded" style="box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);">
+            <h1 class="mb-5">Login</h1>
+            <div class="container col-6">
+                <form action="/user/login" method="post">
+                    <div class="mb-5">
+                      <label for="Email" class="form-label">Email address :</label>
+                      <input type="email" class="form-control border border-secondary" id="Email" name="email" value="<%= email ? email : '' %>">
+                    </div>
+                    <div class="mb-5">
+                      <label for="Password" class="form-label">Password :</label>
+                      <input type="password" class="form-control border border-secondary" id="Password" name="password">
+                    </div>
+                    <div class="d-flex justify-content-center gap-3 my-5 pt-5">
+                        <button type="submit" class="btn btn-outline-success">Login</button>
+                        <div class="div">
+                            <a href="/" class="btn btn-outline-danger">Cancel</a>
+                        </div>
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+
+<%- include('./partials/footer') %>
+
+
+  
