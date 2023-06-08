@@ -77,7 +77,6 @@ class Controller {
                 sampleFile.mv(uploadPath, function(err) {
                 if (err)
                     return res.status(500).send(err);
-
                 })}
                 return newPost.addTags(req.body.TagId)
         })

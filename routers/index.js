@@ -32,8 +32,6 @@ const isUser = (req, res, next) => {
     }
 }
 
-
-
 router.get('/home/admin', isAdmin, Controller.adminPage)
 router.get('/home/delete/:postId', isAdmin, Controller.destroyById)
 router.get('/home/:username', isUser, Controller.Home) 
