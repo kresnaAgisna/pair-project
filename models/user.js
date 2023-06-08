@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.hasOne(models.Profile)
+      User.belongsTo(models.Profile)
       User.hasMany(models.Post)
     }
   }
@@ -53,7 +53,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: `Silahkan pilih role yang anda inginkan!`
         },
       }
-    }
+    },
+    ProfileId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'User',

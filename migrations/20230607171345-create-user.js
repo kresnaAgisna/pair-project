@@ -14,7 +14,14 @@ module.exports = {
         unique:true
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+      },
+      ProfileId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Profiles',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
