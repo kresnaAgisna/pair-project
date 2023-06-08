@@ -35,14 +35,14 @@ class Controller {
             UserId: userId
         })
         .then(newPost => {
-                if(req.files && req.files.ImageUrl) {
+                if(req.files && req.files.imageUrl) {
                 let sampleFile;
                 let uploadPath;
-                sampleFile = req.files.ImageUrl;
+                sampleFile = req.files.imageUrl;
                 let format = sampleFile.mimetype.split('/')[1]
                 uploadPath =  `./public/uploads/${newPost.id}.${format}`
                 let url = `http://localhost:3000/uploads/${newPost.id}.${format}`
-                newPost.set('ImageUrl', url)
+                newPost.set('imageUrl', url)
                 newPost.save()
                 sampleFile.mv(uploadPath, function(err) {
                 if (err)
@@ -62,7 +62,6 @@ class Controller {
             include: [Profile]
         })
         .then(user => {
-            // res.send(user)
             res.render('UserProfile', {user})
         })
     }

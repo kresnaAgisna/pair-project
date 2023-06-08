@@ -7,23 +7,25 @@
         </div>
         <div class="col-8 border-end border-secondary" style="min-height: 100vmax;height: auto;">
             <div class="d-flex flex-column align-items-center gap-4 my-5 px-5">
-
                 <div>
                     <img src="" alt="">
                 </div>
                 <form action="/home/<%= user.Profile.username %>/profile" method="post" class="container border border-secondary py-3 rounded">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        <label class="form-label">username</label>
+                        <input type="text" class="form-control" value="<%= user.Profile.username%>">
                       </div>
                       <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
+                        <label class="form-label">fullName</label>
+                        <input type="text" class="form-control" value="<%= user.Profile.fullName%>">
                       </div>
-                      <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                      <div class="mb-3">
+                        <label class="form-label">phone</label>
+                        <input type="text" class="form-control" value="<%= user.Profile.phone%>">
+                      </div>
+                      <div class="form-control mb-3 d-flex">
+                        <Label>Profile Picture</Label>
+                        <input type="file" class="form-control" name="ImageUrl" >
                       </div>
                       <button type="submit" class="btn btn-outline-primary">Save</button>
                 </form>

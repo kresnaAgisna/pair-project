@@ -13,7 +13,7 @@
                             <label for="floatingInput">Your thoughts...</label>
                           </div>
                           <div class="form-control mb-3">
-                            <input type="file" class="form-control" name="ImageUrl" >
+                            <input type="file" class="form-control" name="imageUrl" >
                           </div>
                           <div class="container d-flex justify-content-between">
                                 <a href="/home/<%= user.Profile.username %>?uploads" class="btn btn-outline-secondary">Upload image<i class="bi bi-file-earmark-image-fill"></i></a>
@@ -29,7 +29,7 @@
                           <p class="card-text"><%= e.content %></p>
                           <p class="card-text"><small class="text-body-secondary">posted on <u><%= e.formattedDate %></u></small></p>
                         </div>
-                        <img src="<%= e.ImageUrl %>" class="card-img-bottom" alt="error">
+                        <img src="<%= e.imageUrl %>" class="card-img-bottom" alt="error">
                     </div>
                 <% }) %>
             </div>
