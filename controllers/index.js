@@ -21,7 +21,6 @@ class Controller {
                 })
             })
             .then(posts => {
-                // res.send(posts)
                 res.render('Home', {user, posts})
             })
             .catch(err => res.send(err))
@@ -31,13 +30,26 @@ class Controller {
     static createPost(req, res) {
         const {userId} = req.session.userInfo
         const {content} = req.body
-        
         Post.create({
             content,
             UserId: userId
         })
         .then(newPost => {
-            res.redirect('Home')
+                if(req.files && req.files.ImageUrl) {
+                let sampleFile;
+                let uploadPath;
+                sampleFile = req.files.ImageUrl;
+                let format = sampleFile.mimetype.split('/')[1]
+                uploadPath =  `./public/uploads/${newPost.id}.${format}`
+                let url = `http://localhost:3000/uploads/${newPost.id}.${format}`
+                newPost.set('ImageUrl', url)
+                newPost.save()
+                sampleFile.mv(uploadPath, function(err) {
+                if (err)
+                    return res.status(500).send(err);
+                res.redirect('Home')
+            });
+        }
         })
         .catch(err => {
             res.send(err)

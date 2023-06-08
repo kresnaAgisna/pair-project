@@ -1,8 +1,11 @@
 const express = require('express');
 const session = require('express-session')
+const fileUpload = require('express-fileupload');
 const router = require('./routers');
 
 const app = express()
+app.use(fileUpload());
+app.use(express.static('public'))
 const port = 3000
 
 app.set('view engine', 'ejs');
