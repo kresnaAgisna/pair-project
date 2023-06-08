@@ -1,5 +1,5 @@
 const { ValidationError } = require('sequelize')
-const {User} = require('../models')
+const {User, Profile} = require('../models')
 const bcrypt = require('bcryptjs') 
 
 class UserController {
@@ -10,7 +10,13 @@ class UserController {
     
     static registerUser(req, res) {
         const {email, password, role} = req.body
-        User.create({email, password, role})
+
+        Profile.create({
+            username: email
+        })
+            .then(profile => {
+                return  User.create({email, password, role, ProfileId : profile.id})
+            })
             .then(newUser => {
                res.redirect(`/user/login?email=${newUser.email}`)
             })
@@ -45,17 +51,19 @@ class UserController {
         .then(user => {
             if(user) {
                 const correctPassword = bcrypt.compareSync(password, user.password)
-                correctPassword ? res.redirect('/home') : res.redirect(`/user/login?error=Invalid username/passord`)
+                if(correctPassword) {
+                    req.session.userInfo = {userId : user.id, role : user.role}
+                    return user.role === 'admin' ?  res.redirect(`/home/admin`) : res.redirect(`/home/${user.role}${user.id}`) 
+                }
+               return res.redirect(`/user/login?error=Invalid username/passord`)
             } else {
-                res.redirect(`/user/login?error=Invalid username/passord`)
+               return res.redirect(`/user/login?error=Invalid username/passord`)
             }
         })
         .catch(err => {
             res.send(err)
         })
-
     }
-
 }
 
 

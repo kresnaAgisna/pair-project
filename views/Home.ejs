@@ -1,0 +1,30 @@
+<%- include('./partials/header') %>
+<%- include('./partials/navbarLogged', {user}) %>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-2 border-end border-start border-secondary" style="height: 100vmax;">
+            </div>
+            <div class="col-8 border-end border-secondary" style="height: 100vmax;">
+                <div class="d-flex flex-column align-items-center gap-4 my-5 px-5">
+                    <form action="" method="get" class="container border border-secondary py-3 rounded">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Your thoughts...</label>
+                          </div>
+                          <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                          </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-2 border-end border-secondary" style="height: 100vmax;">
+            </div>
+        </div>
+    </div>
+
+<%- include('./partials/footer') %>
+
+
+  

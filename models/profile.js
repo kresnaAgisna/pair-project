@@ -12,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Profile.hasOne(models.User, {foreignKey: 'ProfileId'})
     }
+
+    generateUsername() {
+      const code = new Date().toISOString().substring(2,7).split('-').join('');
+      const name = this.username.split('@')[0];
+      return name + code;
+    }
   }
   Profile.init({
     username: DataTypes.STRING,
@@ -24,5 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Profile',
   });
+
+  Profile.addHook('beforeCreate', (profile, option) => { 
+    profile.username = profile.generateUsername()
+  })
+
   return Profile;
 };
