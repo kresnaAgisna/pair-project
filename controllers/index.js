@@ -1,3 +1,4 @@
+const { ValidationError } = require('sequelize');
 const {User, Profile, Post, Tag} = require('../models')
 
 class Controller {
@@ -10,35 +11,55 @@ class Controller {
     }
     
     static Home(req, res) {
+    const error = req.query.error
+    const search = req.query.tag
     let user;
     let posts;
+    let options = {
+        include:[{
+            model : User,
+            include: [Profile]
+        }, {
+            model: Tag,
+            where: {
+            }
+        }],
+    }
+
+    if(search) {
+        options.include[1].where.name = search
+    }
+
     const {userId} = req.session.userInfo
         User.findByPk(userId, {
             include: [Profile]
         })
         .then(result => {
             user = result
-            return Post.findAll({
-                include:[{
-                    model : User,
-                    include: [Profile]
-                }]
-            })
+            return Post.findAll(options)
         })
         .then(result => {
             posts = result
-            return Tag.findAll()
+            return Tag.findAll({
+                include: [Post]
+            })
         })
         .then(tags => {
-            res.render('Home', {user, posts, tags})
+            res.render('Home', {user, posts, tags, error})
         })
         .catch(err => res.send(err))
     }
 
 
     static createPost(req, res, next) {
+        
         const {userId} = req.session.userInfo
-        const {content} = req.body
+        const {content, TagId} = req.body
+        
+        if(!TagId) {
+            return res.redirect(`/home/${req.session.userInfo.username}?error=Silahkan pilih minimal 1 tag`)
+        }
+        console.log(req.body)
         Post.create({
             content,
             UserId: userId
@@ -57,13 +78,19 @@ class Controller {
                 if (err)
                     return res.status(500).send(err);
 
+                })}
                 return newPost.addTags(req.body.TagId)
-            })}
         })
         .then(result => {
             res.redirect(`/home/${req.session.userInfo.username}`)
         })
         .catch(err => {
+            if(err instanceof ValidationError) {
+                const showError = err.errors.map(e => {
+                    return e.message
+                })
+                return res.redirect(`/home/${req.session.userInfo.username}?error=${showError}`)
+            }
             res.send(err)
         })
     }

@@ -15,12 +15,31 @@ router.use((req, res, next) => {
         next()
     }
 })
-router.get('/home/admin', Controller.adminPage)
-router.get('/home/delete/:postId', Controller.destroyById)
-router.get('/home/:username', Controller.Home) 
-router.post('/home/:username', Controller.createPost) 
-router.get('/home/:username/profile', Controller.userProfile) 
-router.post('/home/:username/profile', Controller.updateProfile) 
+
+const isAdmin = (req, res, next) => {
+    if(req.session.userInfo.role !== 'admin') {
+        res.send('Eiitttttttttsssssssssssssss coba-coba lu ye ')
+    } else {
+        next()
+    }
+}
+
+const isUser = (req, res, next) => {
+    if(req.session.userInfo.role === 'admin') {
+        res.send('Hayo MAU NGAPAIN LU HAH?')
+    } else {
+        next()
+    }
+}
+
+
+
+router.get('/home/admin', isAdmin, Controller.adminPage)
+router.get('/home/delete/:postId', isAdmin, Controller.destroyById)
+router.get('/home/:username', isUser, Controller.Home) 
+router.post('/home/:username', isUser, Controller.createPost) 
+router.get('/home/:username/profile', isUser, Controller.userProfile) 
+router.post('/home/:username/profile', isUser, Controller.updateProfile) 
 router.get('/home/:username/logout', Controller.userLogout) 
 
 

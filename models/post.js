@@ -20,7 +20,18 @@ module.exports = (sequelize, DataTypes) => {
 
   }
   Post.init({
-    content: DataTypes.TEXT,
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'minimal komentar 1 karakter'
+        },
+        notNull: {
+          msg: 'minimal komentar 1 karakter'
+        }
+      }
+    },
     imageUrl: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {
