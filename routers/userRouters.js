@@ -2,6 +2,9 @@ const express = require('express');
 const UserController = require('../controllers/userController');
 const router = express.Router()
 
+
+
+
 router.use((req, res, next) => {
     if(req.session.userInfo) {
         let {role, username} = req.session.userInfo

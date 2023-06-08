@@ -31,6 +31,7 @@ class UserController {
                         return res.redirect(`/user/register?error=Email sudah terdaftar`)
                     }
                 }
+                console.log(err)
                 res.send(err)
             })
     }

@@ -4,9 +4,9 @@ const fileUpload = require('express-fileupload');
 const router = require('./routers');
 
 const app = express()
+const port = 3000
 app.use(fileUpload());
 app.use(express.static('public'))
-const port = 3000
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}))

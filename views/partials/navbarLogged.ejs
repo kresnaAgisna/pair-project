@@ -5,8 +5,8 @@
             <a href="/home/<%= user.Profile.username %>" class="navbar-brand text-light fw-light">Home</a>
         </div>
          <div class="d-flex gap-2 align-items-center">
-            <a href="/home/<%= user.id  %>/profile" class="navbar-brand text-light fw-light"> <%= user.Profile.username %></a>
-            <a href="/user/register" class="btn btn-secondary">Log out</a>
+            <a href="/home/<%= user.Profile.username %>/profile" class="navbar-brand text-light fw-light"> <%= user.Profile.username %></a>
+            <a href="/home/<%= user.Profile.username %>/logout" class="btn btn-secondary">Log out</a>
          </div>
     </div>
   </nav>

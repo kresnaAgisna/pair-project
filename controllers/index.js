@@ -27,7 +27,7 @@ class Controller {
     }
 
 
-    static createPost(req, res) {
+    static createPost(req, res, next) {
         const {userId} = req.session.userInfo
         const {content} = req.body
         Post.create({
@@ -47,15 +47,28 @@ class Controller {
                 sampleFile.mv(uploadPath, function(err) {
                 if (err)
                     return res.status(500).send(err);
-                res.redirect('Home')
+                res.redirect(`/home/${req.session.userInfo.username}`)
             });
         }
         })
         .catch(err => {
             res.send(err)
         })
-        
     }
+
+    static userProfile(req, res) {
+        const {userId, role, username} =req.session.userInfo
+        User.findByPk(userId, {
+            include: [Profile]
+        })
+        .then(user => {
+            // res.send(user)
+            res.render('UserProfile', {user})
+        })
+    }
+
+
+
  }
 
 
