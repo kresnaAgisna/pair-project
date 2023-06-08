@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Profile.addHook('beforeCreate', (profile, option) => { 
+    profile.imageUrl = 'http://localhost:3000/profileImg/default.jpg'
     profile.username = profile.generateUsername()
   })
 

@@ -8,7 +8,7 @@
         <div class="col-8 border-end border-secondary" style="min-height: 100vmax;height: auto;">
             <div class="d-flex flex-column align-items-center gap-4 my-5 px-5">
                 <div>
-                    <img src="" alt="">
+                    <img src="<%= user.Profile.imageUrl %>" alt="" class="rounded-circle border border-3 border-secondary" width="200px" height="200px">
                 </div>
                 <form action="/home/<%= user.Profile.username %>/profile" method="post" class="container border border-secondary py-3 rounded" enctype="multipart/form-data">
                       <div class="mb-3">

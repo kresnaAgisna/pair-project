@@ -16,18 +16,24 @@
                             <input type="file" class="form-control" name="imageUrl" >
                           </div>
                           <div class="container d-flex justify-content-between">
-                                <a href="/home/<%= user.Profile.username %>?uploads" class="btn btn-outline-secondary">Upload image<i class="bi bi-file-earmark-image-fill"></i></a>
-                                <button class="btn btn-outline-primary ">Send</button>
+                            <div class="d-flex gap-2">
+                                <% tags.forEach(e => { %>
+                                    <input type="checkbox" class="btn-check" id="<%= e.name %>"autocomplete="off" name="TagId" value="<%= e.id %>">
+                                    <label class="btn btn-outline-secondary" for="<%= e.name %>"><%= e.name %></label>
+                                <% }) %>
+                            </div>
+                            <button class="btn btn-outline-primary ">Send</button>
                           </div>
                     </form>
                 </div >
                 <div class="d-flex flex-column align-items-center gap-4 my-5 p-5">
                 <% posts.forEach(e => { %>
                     <div class="card col-12">
+
                         <div class="card-body">
-                          <h5 class="card-title"><%= e.User.Profile.fullName ? e.User.Profile.fullName : e.User.Profile.username %></h5>
-                          <p class="card-text"><%= e.content %></p>
-                          <p class="card-text"><small class="text-body-secondary">posted on <u><%= e.formattedDate %></u></small></p>
+                          <h5 class="card-title fw-bold fs-3 mb-5"><%= e.User.Profile.fullName ? e.User.Profile.fullName : e.User.Profile.username %></h5>
+                          <p class="card-text my-5"><%= e.content %></p>
+                          <p class="card-text text-end"><small class="text-body-secondary">posted on <u><%= e.formattedDate %></u></small></p>
                         </div>
                         <img src="<%= e.imageUrl %>" class="card-img-bottom" alt="error">
                     </div>

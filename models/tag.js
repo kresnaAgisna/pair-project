@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-     Tag.belongsToMany(models.Post, {through: 'PostTags'})
+     Tag.belongsToMany(models.Post, {through: 'PostTags', onDelete: `cascade`})
     }
   }
   Tag.init({

@@ -4,8 +4,12 @@ const {compare} = require('../helpers/bcrypt')
 
 class UserController {
     static registrationForm(req, res) {
+        let username;
+        if(req.session.userInfo) {
+            username = req.session.userInfo.username
+        }
         const error = req.query.error
-        res.render('RegistrationForm', {error})
+        res.render('RegistrationForm', {error, username})
     }
     
     static registerUser(req, res) {
@@ -37,9 +41,13 @@ class UserController {
     }
 
     static loginPage(req, res) {
+        let username;
+        if(req.session.userInfo) {
+            username = req.session.userInfo.username
+        }
         const error = req.query.error
         const email = req.query.email
-        res.render('LoginPage', {email, error})
+        res.render('LoginPage', {email, error, username})
     }
 
     static successLogin(req, res) {

@@ -9,19 +9,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      TagId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Tags',
-          key: 'id'
-        }
-      },
       PostId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Posts',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      },
+      TagId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Tags',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       },
       createdAt: {
         allowNull: false,

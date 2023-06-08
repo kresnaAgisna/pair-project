@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Post.belongsTo(models.User, {foreignKey: 'UserId'})
-      Post.belongsToMany(models.Tag, {through: 'PostTags'})
+      Post.belongsToMany(models.Tag, {through: 'PostTags', onDelete: `cascade`})
     }
 
     get formattedDate() {

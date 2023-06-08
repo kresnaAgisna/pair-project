@@ -1,34 +1,42 @@
-const {User, Profile, Post} = require('../models')
+const {User, Profile, Post, Tag} = require('../models')
 
 class Controller {
     static landingPage(req, res) {
-        res.render('LandingPage')
+        let username;
+        if(req.session.userInfo) {
+            username = req.session.userInfo.username
+        }
+        res.render('LandingPage', {username})
     }
     
     static Home(req, res) {
     let user;
+    let posts;
     const {userId} = req.session.userInfo
         User.findByPk(userId, {
             include: [Profile]
         })
-            .then(result => {
-                user = result
-                return Post.findAll({
-                    include:[{
-                        model : User,
-                        include: [Profile]
-                    }]
-                })
+        .then(result => {
+            user = result
+            return Post.findAll({
+                include:[{
+                    model : User,
+                    include: [Profile]
+                }]
             })
-            .then(posts => {
-                res.render('Home', {user, posts})
-            })
-            .catch(err => res.send(err))
+        })
+        .then(result => {
+            posts = result
+            return Tag.findAll()
+        })
+        .then(tags => {
+            res.render('Home', {user, posts, tags})
+        })
+        .catch(err => res.send(err))
     }
 
 
     static createPost(req, res, next) {
-        console.log(req.files)
         const {userId} = req.session.userInfo
         const {content} = req.body
         Post.create({
@@ -48,8 +56,12 @@ class Controller {
                 sampleFile.mv(uploadPath, function(err) {
                 if (err)
                     return res.status(500).send(err);
-                res.redirect(`/home/${req.session.userInfo.username}`)
+
+                return newPost.addTags(req.body.TagId)
             })}
+        })
+        .then(result => {
+            res.redirect(`/home/${req.session.userInfo.username}`)
         })
         .catch(err => {
             res.send(err)
@@ -92,6 +104,43 @@ class Controller {
             res.redirect(`/home/${req.session.userInfo.username}/profile`)
         })
         .catch(err => res.send(err))
+    }
+
+    static adminPage(req, res) {
+        Post.findAll({
+            include: {
+                model: User,
+                include: [Profile]
+            }
+        })
+        .then(posts => {
+            res.render('AdminPage', {posts})
+        })
+
+    }
+
+    static destroyById(req, res) {
+       const postId = req.params.postId
+        Post.findByPk(postId)
+            .then(post => {
+                return post.destroy({
+                    cascade:true
+                })
+            })
+            .then(result => {
+                res.redirect(`/home/admin`)
+            })
+            .catch(err => res.send(err))
+    }
+
+    static userLogout(req, res){
+        req.session.destroy(err =>{
+            if(err){
+                console.log(err);
+            } else {
+                res.redirect('/login')
+            }
+        })
     }
  }
 
