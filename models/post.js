@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(models.User, {foreignKey: 'UserId'})
       Post.belongsToMany(models.Tag, {through: 'PostTags'})
     }
+
+    get formattedDate() {
+      return this.createdAt.toDateString()
+    }
+
   }
   Post.init({
     content: DataTypes.TEXT,

@@ -1,6 +1,6 @@
 const { ValidationError } = require('sequelize')
 const {User, Profile} = require('../models')
-const bcrypt = require('bcryptjs') 
+const {compare} = require('../helpers/bcrypt') 
 
 class UserController {
     static registrationForm(req, res) {
@@ -44,16 +44,17 @@ class UserController {
     static successLogin(req, res) {
         const {email, password} = req.body
         User.findOne({
+            include:[Profile],
             where : {
                 email
             }
         })
         .then(user => {
             if(user) {
-                const correctPassword = bcrypt.compareSync(password, user.password)
+                const correctPassword = compare(password, user.password)
                 if(correctPassword) {
-                    req.session.userInfo = {userId : user.id, role : user.role}
-                    return user.role === 'admin' ?  res.redirect(`/home/admin`) : res.redirect(`/home/${user.role}${user.id}`) 
+                    req.session.userInfo = {userId : user.id, role : user.role, username: user.Profile.username}
+                    return user.role === 'admin' ?  res.redirect(`/home/admin`) : res.redirect(`/home/${user.Profile.username}`) 
                 }
                return res.redirect(`/user/login?error=Invalid username/passord`)
             } else {
