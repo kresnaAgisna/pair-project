@@ -28,6 +28,7 @@ class Controller {
 
 
     static createPost(req, res, next) {
+        console.log(req.files)
         const {userId} = req.session.userInfo
         const {content} = req.body
         Post.create({
@@ -48,8 +49,7 @@ class Controller {
                 if (err)
                     return res.status(500).send(err);
                 res.redirect(`/home/${req.session.userInfo.username}`)
-            });
-        }
+            })}
         })
         .catch(err => {
             res.send(err)
@@ -66,8 +66,33 @@ class Controller {
         })
     }
 
-
-
+    static updateProfile(req, res) {
+        let profile;
+        const {userId} = req.session.userInfo
+        const {fullName, phone, userAddress} = req.body
+        Profile.findByPk(userId)
+        .then(result => {
+            profile = result
+            return result.update({fullName, phone, userAddress})
+        })
+        .then(updatedProfile => {
+            if(req.files && req.files.imageUrl) {
+            let sampleFile;
+            let uploadPath;
+            sampleFile = req.files.imageUrl;
+            let format = sampleFile.mimetype.split('/')[1]
+            uploadPath =  `./public/profileImg/${updatedProfile.id}.${format}`
+            let url = `http://localhost:3000/profileImg/${updatedProfile.id}.${format}`
+            updatedProfile.set('imageUrl', url)
+            updatedProfile.save()
+            sampleFile.mv(uploadPath, function(err) {
+            if (err)
+                return res.status(500).send(err);
+            })}
+            res.redirect(`/home/${req.session.userInfo.username}/profile`)
+        })
+        .catch(err => res.send(err))
+    }
  }
 
 
