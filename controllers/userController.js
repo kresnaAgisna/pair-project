@@ -15,9 +15,7 @@ class UserController {
     static registerUser(req, res) {
         const {email, password, role} = req.body
 
-        Profile.create({
-            username: email
-        })
+            Profile.profileInit(email)
             .then(profile => {
                 return  User.create({email, password, role, ProfileId : profile.id})
             })

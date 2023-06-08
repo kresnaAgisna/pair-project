@@ -15,7 +15,7 @@
                           <p class="card-text my-5"><%= e.content %></p>
                           <p class="card-text text-end"><small class="text-body-secondary">posted on <u><%= e.formattedDate %></u></small></p>
                         </div>
-                        <img src="<%= e.imageUrl %>" class="card-img-bottom" alt="error">
+                        <img src="<%= e.imageUrl %>" class="card-img-bottom" alt="error" <%= e.imageUrl ? '' : 'hidden' %>>
                     </div>
                 <% }) %>
             </div>

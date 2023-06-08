@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsTo(models.Profile)
       User.hasMany(models.Post)
     }
+
+    
   }
   User.init({
     email: {

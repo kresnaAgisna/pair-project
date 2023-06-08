@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       Profile.hasOne(models.User, {foreignKey: 'ProfileId'})
     }
 
+    static profileInit(input) {
+      return Profile.create({
+        username: input
+      })
+    }
+
     generateUsername() {
       const code = new Date().toISOString().substring(2,7).split('-').join('');
       const name = this.username.split('@')[0];

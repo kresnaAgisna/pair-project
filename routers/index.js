@@ -4,18 +4,6 @@ const userRouters = require('./userRouters');
 const { Session } = require('express-session');
 const router = express.Router()
 
-
-router.get('/', Controller.landingPage )
-router.use('/user', userRouters)
-
-router.use((req, res, next) => {
-    if(!req.session.userInfo) {
-        res.redirect('/user/login')
-    } else {
-        next()
-    }
-})
-
 const isAdmin = (req, res, next) => {
     if(req.session.userInfo.role !== 'admin') {
         res.send('Eiitttttttttsssssssssssssss coba-coba lu ye ')
@@ -31,6 +19,19 @@ const isUser = (req, res, next) => {
         next()
     }
 }
+
+router.get('/', Controller.landingPage )
+router.use('/user', userRouters)
+
+router.use((req, res, next) => {
+    if(!req.session.userInfo) {
+        res.redirect('/user/login')
+    } else {
+        next()
+    }
+})
+
+
 
 router.get('/home/admin', isAdmin, Controller.adminPage)
 router.get('/home/delete/:postId', isAdmin, Controller.destroyById)

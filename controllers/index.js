@@ -138,9 +138,12 @@ class Controller {
                 model: User,
                 include: [Profile]
             }
-        })
+          })
         .then(posts => {
             res.render('AdminPage', {posts})
+        })
+        .catch(err => {
+            res.send(err)
         })
 
     }
@@ -164,7 +167,7 @@ class Controller {
             if(err){
                 console.log(err);
             } else {
-                res.redirect('/login')
+                res.redirect('/')
             }
         })
     }
